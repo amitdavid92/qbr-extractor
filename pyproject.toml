@@ -1,0 +1,30 @@
+[project]
+name = "qbr-extractor"
+version = "0.1.0"
+description = "Extract structured data from QBR PDF reports using an LLM pipeline"
+requires-python = ">=3.11"
+dependencies = [
+    "pymupdf>=2.0",
+    "google-genai>=1.0",
+    "pydantic>=2.7",
+    "python-dateutil>=2.9",
+    "python-dotenv>=1.0",
+    "pandas>=2.2",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+qbr = "qbr_extractor.cli:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
