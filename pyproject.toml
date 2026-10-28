@@ -7,7 +7,6 @@ dependencies = [
     "pymupdf>=2.0",
     "google-genai>=1.0",
     "pydantic>=2.7",
-    "python-dateutil>=2.9",
     "python-dotenv>=1.0",
     "pandas>=2.2",
     "openpyxl>=3.1",
@@ -28,3 +27,4 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = ["ignore:builtin type .* has no __module__ attribute:DeprecationWarning"]
