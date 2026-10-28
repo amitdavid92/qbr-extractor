@@ -1,0 +1,40 @@
+{
+  "file": "04_BluePeak_Financial_Services_Business_Review.pdf",
+  "customer_name": "BluePeak Financial Services",
+  "period": {"year": null, "quarter": 2, "status": "found"},
+  "report_date": null,
+  "goals": [
+    {"text": "Reduce failed executions below 2%", "scope": "current"},
+    {"text": "Extend automation to Procurement", "scope": "next"}
+  ],
+  "kpis": [
+    {"name": "Users", "value": 1142, "previous": null, "target": null},
+    {"name": "Activated accounts", "value": 1087, "previous": null, "target": null},
+    {"name": "Weekly active", "value": 812, "previous": null, "target": null},
+    {"name": "Automation executions", "value": 48620, "previous": null, "target": null},
+    {"name": "Failed executions", "value": 1.7, "previous": null, "target": 2},
+    {"name": "Avg. execution time", "value": 42, "previous": null, "target": null},
+    {"name": "Customer satisfaction", "value": 4.3, "previous": null, "target": null}
+  ],
+  "achievements": [
+    "Security assessment completed successfully",
+    "MFA enabled for all administrator accounts",
+    "Three additional business processes automated",
+    "Automation saves approximately 110-130 working hours per month",
+    "Q2 objective of failed executions below 2% achieved"
+  ],
+  "challenges": [
+    "Workflows created by business users without review from central IT; governance and permissions concerns",
+    "No documented approval process for new production workflows"
+  ],
+  "risks": [],
+  "action_items": [
+    {"text": "Governance workshop", "owner": null, "due_date": null},
+    {"text": "Define workflow approval process", "owner": "IT Governance", "due_date": null},
+    {"text": "Procurement automation discovery", "owner": null, "due_date": null},
+    {"text": "Review permissions model", "owner": "Security team", "due_date": null}
+  ],
+  "conflicts": [],
+  "needs_review": true,
+  "notes": "The year is not stated anywhere in the document, so period year and all due dates ('August 5', 'August', 'before end of Q3') cannot be resolved and must stay null. Customer name uses the normal casing from the footer."
+}

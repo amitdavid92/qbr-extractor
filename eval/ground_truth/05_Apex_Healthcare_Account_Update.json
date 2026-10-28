@@ -1,0 +1,42 @@
+{
+  "file": "05_Apex_Healthcare_Account_Update.pdf",
+  "customer_name": "Apex Healthcare",
+  "period": {"year": 2026, "quarter": 2, "status": "found"},
+  "report_date": null,
+  "goals": [
+    {"text": "Reach 700 active users by the end of Q2", "scope": "current"}
+  ],
+  "kpis": [
+    {"name": "Total registered users", "value": 810, "previous": null, "target": null},
+    {"name": "Active users", "value": 524, "previous": null, "target": 700},
+    {"name": "Adoption", "value": 65, "previous": null, "target": null},
+    {"name": "Support satisfaction", "value": 92, "previous": 87, "target": null},
+    {"name": "Open tickets", "value": 17, "previous": null, "target": null},
+    {"name": "High priority tickets", "value": 3, "previous": null, "target": null},
+    {"name": "Integration uptime", "value": 99.7, "previous": null, "target": null},
+    {"name": "Hospital North adoption", "value": 80, "previous": null, "target": null},
+    {"name": "Hospital Central adoption", "value": 50, "previous": null, "target": null}
+  ],
+  "achievements": [
+    "Scheduling integration went live on May 18",
+    "Two hospital locations completed onboarding",
+    "Support satisfaction improved from 87% to 92%"
+  ],
+  "challenges": [
+    "User adoption is behind the original plan (about 520 active users vs 700 planned)",
+    "Training attendance was lower than expected",
+    "Hospital South rollout not completed"
+  ],
+  "risks": [
+    "Hospital South rollout may slip into Q4 if training resources are not allocated, impacting the annual adoption target"
+  ],
+  "action_items": [
+    {"text": "Training team will propose additional sessions", "owner": "Training team", "due_date": null},
+    {"text": "Coordinate Hospital South rollout", "owner": "Rebecca", "due_date": null},
+    {"text": "Monitor scheduling integration", "owner": "Technical team", "due_date": null},
+    {"text": "Next executive review", "owner": null, "due_date": "2026-09-30"}
+  ],
+  "conflicts": [],
+  "needs_review": false,
+  "notes": "Goal is stated only in narrative (700 planned vs ~520 actual). 'approximately 520' is a rounding of the exact 524, not a conflict. 'Next executive review' is listed under Agreed Activities, so it counts as an action item."
+}

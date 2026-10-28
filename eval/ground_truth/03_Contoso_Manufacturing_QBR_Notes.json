@@ -1,0 +1,38 @@
+{
+  "file": "03_Contoso_Manufacturing_QBR_Notes.pdf",
+  "customer_name": "Contoso Manufacturing",
+  "period": {"year": 2026, "quarter": 2, "status": "inferred"},
+  "report_date": "2026-07-07",
+  "goals": [
+    {"text": "Improve ERP synchronization reliability", "scope": "next"},
+    {"text": "Increase adoption within warehouse teams", "scope": "next"},
+    {"text": "Start implementation of automated supplier reconciliation", "scope": "next"}
+  ],
+  "kpis": [
+    {"name": "Licensed users", "value": 500, "previous": null, "target": null},
+    {"name": "Active users", "value": 318, "previous": 250, "target": null},
+    {"name": "Weekly active users", "value": 270, "previous": null, "target": null},
+    {"name": "API requests", "value": 1800000, "previous": null, "target": null},
+    {"name": "System availability", "value": 99.94, "previous": null, "target": null},
+    {"name": "Open critical support cases", "value": 1, "previous": null, "target": null}
+  ],
+  "achievements": [
+    "Production Planning migration completed",
+    "ERP integration moved to production",
+    "First automated inventory reconciliation workflow deployed"
+  ],
+  "challenges": [
+    "ERP synchronization occasionally fails during overnight processing; no confirmed root cause",
+    "One critical support case remains open"
+  ],
+  "risks": [],
+  "action_items": [
+    {"text": "Review ERP sync logs", "owner": "Tom", "due_date": null},
+    {"text": "Provide examples of failed transactions", "owner": "Customer IT team", "due_date": null},
+    {"text": "Schedule architecture session", "owner": null, "due_date": null},
+    {"text": "Supplier reconciliation workshop", "owner": null, "due_date": "2026-08-31"}
+  ],
+  "conflicts": [],
+  "needs_review": false,
+  "notes": "No period stated: Q2 2026 inferred from meeting date 07/07/2026. No goals for the reviewed quarter. 'Customer priorities' = next-period goals. No explicit risk section (inferred risks are allowed, not scored). 'No dates were agreed for the first two items'."
+}

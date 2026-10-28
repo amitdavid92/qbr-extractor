@@ -1,0 +1,38 @@
+{
+  "file": "02_Globex_Retail_Apr-Jun_2026.pdf",
+  "customer_name": "Globex Retail",
+  "period": {"year": 2026, "quarter": 2, "status": "found"},
+  "report_date": "2026-07-31",
+  "goals": [
+    {"text": "Increase adoption across store managers", "scope": "current"},
+    {"text": "Reduce manual reporting processes", "scope": "current"},
+    {"text": "Increase store-manager adoption", "scope": "next"},
+    {"text": "Resolve mobile authentication issues", "scope": "next"},
+    {"text": "Expand automated reporting", "scope": "next"}
+  ],
+  "kpis": [
+    {"name": "Active users", "value": 600, "previous": 410, "target": null},
+    {"name": "Adoption rate", "value": 68, "previous": null, "target": null},
+    {"name": "Automated reports per month", "value": 2000, "previous": 1200, "target": null},
+    {"name": "Customer satisfaction", "value": 8.4, "previous": null, "target": null}
+  ],
+  "achievements": [
+    "Training sessions for regional managers were completed",
+    "Automated weekly reporting workflow was successfully introduced",
+    "Estimated saving of approximately 25 hours of manual work per week"
+  ],
+  "challenges": [
+    "Rollout progressed slower than planned due to internal training delays",
+    "Some store managers continue to use spreadsheets instead of the platform",
+    "Mobile login issues reported by several users during June"
+  ],
+  "risks": [],
+  "action_items": [
+    {"text": "Mobile authentication investigation", "owner": "Product Team", "due_date": "2026-07-31"},
+    {"text": "Additional training session for store managers", "owner": null, "due_date": null},
+    {"text": "Adoption review", "owner": "Michelle", "due_date": "2026-08-01"}
+  ],
+  "conflicts": [{"topic": "June adoption rate", "values": ["68%", "64%"]}],
+  "needs_review": true,
+  "notes": "Report date (July) differs from period (Apr-Jun). 'Q3 Focus' = next-period goals. Adoption 68% vs 64% from two different sources. 01/08/26 read as DD/MM."
+}

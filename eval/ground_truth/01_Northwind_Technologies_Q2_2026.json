@@ -1,0 +1,39 @@
+{
+  "file": "01_Northwind_Technologies_Q2_2026.pdf",
+  "customer_name": "Northwind Technologies",
+  "period": {"year": 2026, "quarter": 2, "status": "found"},
+  "report_date": null,
+  "goals": [
+    {"text": "Increase monthly active users above 800", "scope": "current"},
+    {"text": "Complete SSO rollout", "scope": "current"},
+    {"text": "Expand usage to the Operations team", "scope": "current"},
+    {"text": "Reduce support ticket volume", "scope": "current"}
+  ],
+  "kpis": [
+    {"name": "Monthly Active Users", "value": 875, "previous": 640, "target": 800},
+    {"name": "Platform Adoption", "value": 74, "previous": 61, "target": null},
+    {"name": "Support Tickets", "value": 29, "previous": 42, "target": null},
+    {"name": "Average Resolution Time", "value": 5.1, "previous": 7.2, "target": null}
+  ],
+  "achievements": [
+    "SSO implementation completed successfully in May",
+    "Two additional engineering teams completed onboarding",
+    "Support ticket volume decreased significantly",
+    "Customer participated in the new Analytics beta program"
+  ],
+  "challenges": [
+    "Operations adoption remains below target; about 35 users have not completed onboarding",
+    "Occasional delays when generating large reports"
+  ],
+  "risks": [
+    "Low adoption within Operations could impact the planned company-wide rollout in Q3"
+  ],
+  "action_items": [
+    {"text": "Complete Operations onboarding", "owner": "Sarah Levi", "due_date": "2026-07-15"},
+    {"text": "Investigate large report performance", "owner": "Platform Engineering", "due_date": "2026-07-31"},
+    {"text": "Prepare company-wide rollout plan", "owner": "Daniel Cohen", "due_date": "2026-08-10"}
+  ],
+  "conflicts": [],
+  "needs_review": false,
+  "notes": "Clean baseline document."
+}

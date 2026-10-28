@@ -1,0 +1,39 @@
+{
+  "file": "06_Vertex_Logistics_Quarterly_Review.pdf",
+  "customer_name": "Vertex Logistics",
+  "period": {"year": 2026, "quarter": 2, "status": "inferred"},
+  "report_date": "2026-06-30",
+  "goals": [
+    {"text": "Reach 900 weekly active users in Q2", "scope": "current"}
+  ],
+  "kpis": [
+    {"name": "Users", "value": 1340, "previous": 900, "target": null},
+    {"name": "Weekly active users", "value": 910, "previous": 590, "target": 900},
+    {"name": "Weekly adoption", "value": 67.9, "previous": null, "target": null},
+    {"name": "Transactions processed during June", "value": 2400000, "previous": null, "target": null},
+    {"name": "Average processing time", "value": 1.9, "previous": null, "target": null},
+    {"name": "Peak processing time", "value": 8, "previous": null, "target": null},
+    {"name": "Failed transactions", "value": 0.6, "previous": null, "target": null},
+    {"name": "Availability", "value": 99.96, "previous": null, "target": null}
+  ],
+  "achievements": [
+    "European rollout completed",
+    "French localization released",
+    "Automated shipment exception alerts introduced"
+  ],
+  "challenges": [
+    "Performance degradation during peak morning hours (08:00-10:00 CET); root cause not confirmed"
+  ],
+  "risks": [
+    "Performance could become a larger issue as additional countries are onboarded",
+    "Poland rollout depends on completion of the performance investigation"
+  ],
+  "action_items": [
+    {"text": "Performance investigation", "owner": "Engineering", "due_date": null},
+    {"text": "Regional dashboard requirements", "owner": "Anna", "due_date": "2026-07-22"},
+    {"text": "Poland rollout readiness review", "owner": null, "due_date": "2026-08-31"}
+  ],
+  "conflicts": [{"topic": "Weekly adoption rate", "values": ["around seventy percent", "67.9%"]}],
+  "needs_review": true,
+  "notes": "Period inferred from the date June 30, 2026. Adoption reported by two different sources (meeting vs analytics dashboard) -> conflict. 'Regional dashboard' request is an action item, not a challenge. Poland rollout is a dependency/risk, not a stated goal."
+}

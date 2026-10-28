@@ -1,0 +1,105 @@
+{
+  "model": "gemini-3.5-flash",
+  "prompt_version": "v1",
+  "lists": {
+    "goals": {
+      "precision": 0.938,
+      "recall": 1.0
+    },
+    "achievements": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "challenges": {
+      "precision": 0.938,
+      "recall": 1.0
+    },
+    "risks": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "kpis": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "action_items": {
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "fields": {
+    "customer_name": {
+      "accuracy": 0.833,
+      "n": 6
+    },
+    "period_year": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "period_quarter": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "period_status": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "report_date": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "needs_review": {
+      "accuracy": 0.833,
+      "n": 6
+    },
+    "goal_scope": {
+      "accuracy": 1.0,
+      "n": 15
+    },
+    "kpi_value": {
+      "accuracy": 1.0,
+      "n": 38
+    },
+    "kpi_previous": {
+      "accuracy": 1.0,
+      "n": 38
+    },
+    "kpi_target": {
+      "accuracy": 1.0,
+      "n": 38
+    },
+    "action_owner": {
+      "accuracy": 1.0,
+      "n": 21
+    },
+    "action_due_date": {
+      "accuracy": 1.0,
+      "n": 21
+    }
+  },
+  "invented_values": {
+    "count": 0,
+    "null_slots": 85
+  },
+  "conflicts": {
+    "detected": 2,
+    "expected": 2,
+    "false_alarms": 1
+  },
+  "errors": {
+    "01_Northwind_Technologies_Q2_2026.pdf": [],
+    "02_Globex_Retail_Apr-Jun_2026.pdf": [],
+    "03_Contoso_Manufacturing_QBR_Notes.pdf": [],
+    "04_BluePeak_Financial_Services_Business_Review.pdf": [
+      "customer_name: expected 'BluePeak Financial Services', got 'BLUEPEAK FINANCIAL SERVICES'"
+    ],
+    "05_Apex_Healthcare_Account_Update.pdf": [
+      "needs_review: expected False, got True",
+      "FALSE conflict: Active user count: approximately 520 active users vs 524"
+    ],
+    "06_Vertex_Logistics_Quarterly_Review.pdf": [
+      "EXTRA goals: Poland rollout",
+      "EXTRA challenges: Logistics team requested an improved dashboard for regional managers"
+    ]
+  }
+}
