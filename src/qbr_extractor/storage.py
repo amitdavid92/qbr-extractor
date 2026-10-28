@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS kpis (
     previous_num    REAL,
     target_raw      TEXT,
     target_num      REAL,
+    target_comparator TEXT,
+    target_met      INTEGER,          -- NULL when the target has no explicit direction
     source_quote    TEXT,
     quote_verified  INTEGER NOT NULL,
     values_verified INTEGER NOT NULL
@@ -103,7 +105,7 @@ EXPORT_QUERIES = {
         FROM report_items i JOIN reports r USING (document_id) ORDER BY r.customer_name, i.item_type""",
     "kpis": """
         SELECT r.customer_name, k.name, k.value_raw, k.value_num, k.unit, k.is_approximate, k.comparator,
-               k.previous_raw, k.previous_num, k.target_raw, k.target_num, k.values_verified
+               k.previous_raw, k.previous_num, k.target_raw, k.target_num, k.target_met, k.values_verified
         FROM kpis k JOIN reports r USING (document_id) ORDER BY r.customer_name, k.id""",
     "action_items": """
         SELECT r.customer_name, a.description, a.owner, a.owner_raw, a.due_date, a.due_date_precision,
@@ -146,11 +148,11 @@ class Repository:
             )
             self.conn.executemany(
                 "INSERT INTO kpis (document_id, name, value_raw, value_num, unit, is_approximate, comparator,"
-                " previous_raw, previous_num, target_raw, target_num, source_quote, quote_verified, values_verified)"
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                " previous_raw, previous_num, target_raw, target_num, target_comparator, target_met, source_quote,"
+                " quote_verified, values_verified) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [(doc_id, k.name, k.value_raw, k.value_num, k.unit, k.is_approximate, k.comparator,
-                  k.previous_raw, k.previous_num, k.target_raw, k.target_num, k.source_quote,
-                  k.quote_verified, k.values_verified) for k in r.kpis],
+                  k.previous_raw, k.previous_num, k.target_raw, k.target_num, k.target_comparator, k.target_met,
+                  k.source_quote, k.quote_verified, k.values_verified) for k in r.kpis],
             )
             self.conn.executemany(
                 "INSERT INTO action_items (document_id, description, owner, owner_raw, due_date,"
@@ -181,6 +183,14 @@ class Repository:
             (file_name, file_hash, status, error, model, prompt_version, processed_at, record_json),
         )
         return cur.lastrowid
+
+    def find_documents(self, term: str) -> list[tuple[int, str, str, str | None, str | None]]:
+        """Look up by id or by part of the file name -> (id, file_name, status, error, record_json)."""
+        if term.isdigit():
+            sql, arg = "SELECT id, file_name, status, error, record_json FROM documents WHERE id = ?", int(term)
+        else:
+            sql, arg = "SELECT id, file_name, status, error, record_json FROM documents WHERE file_name LIKE ?", f"%{term}%"
+        return self.conn.execute(sql + " ORDER BY file_name", (arg,)).fetchall()
 
     def export_excel(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)

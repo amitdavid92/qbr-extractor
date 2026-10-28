@@ -3,8 +3,11 @@
 from datetime import date
 from pathlib import Path
 
+import pytest
+
+from qbr_extractor.normalize import parse_number
 from qbr_extractor.pdf_reader import PdfDocument
-from qbr_extractor.record import build_record
+from qbr_extractor.record import build_record, target_met
 from qbr_extractor.schema import ActionItem, Conflict, Goal, Kpi, QbrExtraction, TextField
 
 DOC_TEXT = """
@@ -62,6 +65,22 @@ def test_clean_extraction_is_normalized_and_not_flagged():
     assert dash.due_date == date(2026, 7, 22) and dash.due_date_precision == "day"
     assert "year not stated; assumed 2026" in reasons(r)
     assert not r.needs_review, reasons(r)
+
+
+@pytest.mark.parametrize(
+    "value, target, expected",
+    [
+        ("875", "above 800", True),
+        ("1.7%", "below 2%", True),
+        ("2.5%", "below 2%", False),
+        ("524", "700", None),  # no direction stated -> not judged
+        ("more than 2,000", "above 1,500", None),  # value itself is a bound
+        ("5 sec", "below 2%", None),  # unit mismatch
+        ("875", None, None),
+    ],
+)
+def test_target_met(value, target, expected):
+    assert target_met(parse_number(value), parse_number(target)) is expected
 
 
 def test_hallucinated_owner_is_flagged():

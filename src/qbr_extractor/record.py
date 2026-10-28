@@ -10,7 +10,7 @@ from typing import Literal
 from pydantic import BaseModel, computed_field
 
 from .grounding import Grounding
-from .normalize import is_no_value, normalize_owner, parse_date, parse_number, parse_period
+from .normalize import ParsedNumber, is_no_value, normalize_owner, parse_date, parse_number, parse_period
 from .pdf_reader import PdfDocument
 from .schema import QbrExtraction
 
@@ -68,9 +68,22 @@ class KpiRecord(BaseModel):
     previous_num: float | None
     target_raw: str | None
     target_num: float | None
+    target_comparator: str | None
+    target_met: bool | None  # null unless the target states a direction ("above 800", "below 2%")
     source_quote: str
     quote_verified: bool
     values_verified: bool  # every raw value appears in the document
+
+
+def target_met(value: ParsedNumber, target: ParsedNumber) -> bool | None:
+    """Only judged when the target states its direction. A bare target such as "700" could mean
+    at least or at most (users vs. tickets), so it is left as null rather than guessed."""
+    if value.value is None or target.value is None or value.comparator or target.comparator is None:
+        return None
+    if value.unit and target.unit and value.unit != target.unit:
+        return None
+    v, t = value.value, target.value
+    return {">": v > t, ">=": v >= t, "<": v < t, "<=": v <= t}[target.comparator]
 
 
 class ActionRecord(BaseModel):
@@ -195,7 +208,8 @@ def build_record(doc: PdfDocument, ex: QbrExtraction, model: str, prompt_version
             name=k.name, value_raw=k.value_raw, value_num=cur.value, unit=cur.unit,
             is_approximate=cur.is_approximate, comparator=cur.comparator,
             previous_raw=k.previous_value_raw, previous_num=prev.value,
-            target_raw=k.target_raw, target_num=tgt.value,
+            target_raw=k.target_raw, target_num=tgt.value, target_comparator=tgt.comparator,
+            target_met=target_met(cur, tgt),
             source_quote=k.source_quote, quote_verified=check_quote("kpis", k.source_quote),
             values_verified=check_values(f"kpis[{k.name}]", k.value_raw, k.previous_value_raw, k.target_raw),
         ))

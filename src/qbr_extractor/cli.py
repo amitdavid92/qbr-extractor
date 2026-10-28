@@ -3,6 +3,7 @@
     qbr process data/input            # extract every PDF in the folder, save to SQLite + Excel
     qbr process report.pdf --no-cache # force a fresh LLM call
     qbr export                        # re-export Excel from the database
+    qbr show vertex                   # print one stored result in readable form
 """
 
 import argparse
@@ -16,7 +17,9 @@ from dotenv import load_dotenv
 from .extractor import Extractor
 from .llm import GeminiClient
 from .pipeline import Pipeline, collect_pdfs
+from .record import QbrRecord
 from .storage import Repository
+from .view import format_record
 
 DEFAULT_DB = Path("output/qbr.db")
 DEFAULT_EXCEL = Path("output/qbr.xlsx")
@@ -37,6 +40,9 @@ def main(argv: list[str] | None = None) -> int:
     p_export = sub.add_parser("export", help="export the database to Excel")
     p_export.add_argument("--excel", type=Path, default=DEFAULT_EXCEL)
 
+    p_show = sub.add_parser("show", help="print one stored result in readable form")
+    p_show.add_argument("document", help="document id or part of its file name, e.g. 'vertex'")
+
     args = parser.parse_args(argv)
     _setup_logging(args.verbose)
     load_dotenv()
@@ -47,9 +53,29 @@ def main(argv: list[str] | None = None) -> int:
             repo.export_excel(args.excel)
             print(f"Exported {args.db} -> {args.excel}")
             return 0
+        if args.command == "show":
+            return _show(args.document, repo)
         return _process(args, repo)
     finally:
         repo.close()
+
+
+def _show(term: str, repo: Repository) -> int:
+    matches = repo.find_documents(term)
+    if not matches:
+        print(f"No document matches {term!r}. Run `qbr process` first.", file=sys.stderr)
+        return 2
+    if len(matches) > 1:
+        print(f"{term!r} matches several documents; use the id:")
+        for doc_id, name, status, *_ in matches:
+            print(f"  {doc_id:>3}  {name}  [{status}]")
+        return 2
+    _, name, status, error, record_json = matches[0]
+    if status == "failed":
+        print(f"{name}: FAILED - {error}")
+        return 1
+    print(format_record(QbrRecord.model_validate_json(record_json)))
+    return 0
 
 
 def _process(args: argparse.Namespace, repo: Repository) -> int:

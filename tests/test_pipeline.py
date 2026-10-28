@@ -64,8 +64,8 @@ def test_end_to_end_success(repo):
         ("Northwind Technologies", 2026, 2)]
     assert rows(repo, "SELECT owner, due_date, due_date_precision FROM action_items") == [
         ("Sarah Levi", "2026-07-15", "day")]
-    assert rows(repo, "SELECT value_num, previous_num, target_num, comparator FROM kpis") == [
-        (875.0, 640.0, 800.0, None)]
+    assert rows(repo, "SELECT value_num, previous_num, target_num, target_met FROM kpis") == [
+        (875.0, 640.0, 800.0, 1)]
     assert rows(repo, "SELECT item_type FROM report_items ORDER BY item_type") == [
         ("achievement",), ("goal",), ("risk",)]
 
@@ -101,6 +101,18 @@ def test_scanned_pdf_fails_without_llm_call(repo, tmp_path):
     result = Pipeline(Extractor(client), repo).process_file(blank)
     assert result.status == "failed" and "no text layer" in result.error
     assert client.calls == 0
+
+
+def test_show_renders_stored_record(repo, capsys):
+    from qbr_extractor.record import QbrRecord
+    from qbr_extractor.view import format_record
+
+    Pipeline(Extractor(FakeLLMClient(json.dumps(NORTHWIND_EXTRACTION))), repo).process_file(NORTHWIND)
+    [(_, _, _, _, record_json)] = repo.find_documents("northwind")
+    text = format_record(QbrRecord.model_validate_json(record_json))
+    assert "Northwind Technologies" in text
+    assert "owner: Sarah Levi" in text and "2026-07-15 (day)" in text
+    assert "met=True" in text
 
 
 def test_cache_avoids_second_llm_call(repo, tmp_path):
