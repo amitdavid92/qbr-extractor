@@ -124,7 +124,7 @@ def _eval(args: argparse.Namespace) -> int:
         return 1
 
     args.out.mkdir(parents=True, exist_ok=True)
-    out_file = args.out / f"{PROMPT_VERSION}.json"
+    out_file = args.out / f"{args.ground_truth.name}_{PROMPT_VERSION}.json"
     out_file.write_text(json.dumps(report.summary(), indent=2))
     print(f"\nSaved {out_file}")
     return 0

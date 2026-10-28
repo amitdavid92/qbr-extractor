@@ -1,0 +1,43 @@
+{
+  "file": "07_Orion_Insurance_QBR_Q3_FY2026.pdf",
+  "customer_name": "Orion Insurance Group",
+  "period": {"year": 2025, "quarter": 4, "status": "found"},
+  "report_date": "2026-01-12",
+  "goals": [
+    {"text": "Launch claims automation for the Motor line", "scope": "current"},
+    {"text": "Reach 40% straight-through processing (STP) for eligible claims", "scope": "current"},
+    {"text": "Keep claims processed within SLA at or above 95%", "scope": "current"},
+    {"text": "Roll out the Home line in Q4 FY2026", "scope": "next"}
+  ],
+  "kpis": [
+    {"name": "Straight-through processing", "value": 42, "previous": 31, "target": 40},
+    {"name": "Claims processed within SLA", "value": 93.1, "previous": 96.2, "target": 95},
+    {"name": "Average claim cycle time (days)", "value": 5.9, "previous": 6.8, "target": null},
+    {"name": "Customer complaints", "value": 61, "previous": 57, "target": null},
+    {"name": "Active adjusters on platform", "value": 248, "previous": 210, "target": null}
+  ],
+  "achievements": [
+    "Claims automation went live for the Motor line in November",
+    "Straight-through processing improved for the second consecutive quarter (42% vs 40% target)",
+    "Motor claims rules finalized",
+    "Adjusters trained on the new workflow",
+    "Leadership confirmed budget for the Home line rollout"
+  ],
+  "challenges": [
+    "December claims peak pushed SLA performance below target",
+    "Complaints rose, mainly about status notifications not sent for automated claims"
+  ],
+  "risks": [
+    "If the historical data migration slips beyond February 2026, the Home line rollout may be delayed",
+    "Key-person dependency: only one Orion analyst maintains the automation rules"
+  ],
+  "action_items": [
+    {"text": "Fix status notifications for automated claims", "owner": "Helix Consulting", "due_date": "2026-01-31"},
+    {"text": "Complete historical claims data migration", "owner": "Orion IT", "due_date": "2026-02-28"},
+    {"text": "Home line rollout plan", "owner": ["VP Operations (Orion)", "VP Operations"], "due_date": "2026-03-15"},
+    {"text": "Assign a second automation rules analyst", "owner": "Orion HR", "due_date": null}
+  ],
+  "conflicts": [],
+  "needs_review": false,
+  "notes": "Fiscal year: Q3 FY2026 = calendar Q4 2025 (Oct-Dec 2025); the normalized period must be calendar-based. Customer is Orion, not the consultant Helix. Previous-QBR actions marked Done are achievements, not open actions; the in-progress migration is the same item as the next-step migration (one action). 'by Jan 31' is after the Dec 2025 period end -> 2026."
+}

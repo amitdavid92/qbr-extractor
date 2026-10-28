@@ -106,15 +106,33 @@ class DocResult:
         return self.fields.setdefault(name, Tally())
 
 
-def _num_equal(a: float | None, b: float | None) -> bool:
-    if a is None or b is None:
-        return a is None and b is None
-    return abs(a - b) <= 1e-6 * max(1.0, abs(b))
+# Ground truth may list several acceptable answers where the document is genuinely
+# ambiguous (e.g. owner "JM" with a legend "JM = Jonas Meyer"); any of them counts.
 
 
-def _text_equal(a: str | None, b: str | None) -> bool:
+def _alternatives(expected) -> list:
+    return expected if isinstance(expected, list) else [expected]
+
+
+def _num_equal(a: float | None, expected) -> bool:
+    for b in _alternatives(expected):
+        if a is None or b is None:
+            if a is None and b is None:
+                return True
+        elif abs(a - b) <= 1e-6 * max(1.0, abs(b)):
+            return True
+    return False
+
+
+def _text_equal(a: str | None, expected) -> bool:
     norm = lambda s: " ".join(s.lower().split()) if s else None  # noqa: E731
-    return norm(a) == norm(b)
+    return any(norm(a) == norm(b) for b in _alternatives(expected))
+
+
+def _name_equal(a: str | None, expected: str) -> bool:
+    """Case-sensitive (casing is part of the requirement), but punctuation/dash style is ignored."""
+    norm = lambda s: re.sub(r"[^\w]+", " ", s).strip() if s else None  # noqa: E731
+    return norm(a) == norm(expected)
 
 
 def evaluate_document(gt: dict, rec: QbrRecord) -> DocResult:
@@ -131,7 +149,7 @@ def evaluate_document(gt: dict, rec: QbrRecord) -> DocResult:
             err(f"INVENTED {name}: {pred_value!r} (ground truth is null)")
 
     # --- scalar fields
-    field_check("customer_name", rec.customer.name == gt["customer_name"], gt["customer_name"], rec.customer.name)
+    field_check("customer_name", _name_equal(rec.customer.name, gt["customer_name"]), gt["customer_name"], rec.customer.name)
     gp = gt["period"]
     field_check("period_year", rec.period.year == gp["year"], gp["year"], rec.period.year)
     field_check("period_quarter", rec.period.quarter == gp["quarter"], gp["quarter"], rec.period.quarter)

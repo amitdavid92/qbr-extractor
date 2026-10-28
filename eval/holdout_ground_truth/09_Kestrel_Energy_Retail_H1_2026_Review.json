@@ -1,0 +1,40 @@
+{
+  "file": "09_Kestrel_Energy_Retail_H1_2026_Review.pdf",
+  "customer_name": "Kestrel Energy Retail Division",
+  "period": {"year": 2026, "quarter": null, "status": "found"},
+  "report_date": null,
+  "goals": [
+    {"text": "Digital billing adoption at or above 70%", "scope": "current"},
+    {"text": "Platform uptime at or above 99.5%", "scope": "current"},
+    {"text": "Launch self-service portal", "scope": "current"}
+  ],
+  "kpis": [
+    {"name": "Digital billing adoption", "value": 71, "previous": 58, "target": 70},
+    {"name": "Avg. API response time (ms)", "value": 220, "previous": 340, "target": null},
+    {"name": "Billing-run success rate", "value": 97.8, "previous": 99.1, "target": null},
+    {"name": "Monthly active portal users", "value": 84500, "previous": null, "target": null},
+    {"name": "Platform uptime", "value": [99.5, 99.3], "previous": null, "target": 99.5}
+  ],
+  "achievements": [
+    "Smart-meter self-service portal launched in February",
+    "Digital billing adoption reached 71%, up from 58%",
+    "Call-center volume down 18% year over year"
+  ],
+  "challenges": [
+    "Billing-run failures in April affected about 3,200 customers",
+    "Portal accessibility audit found 12 issues (4 critical)",
+    "Regulator inquiry on estimated bills is still open"
+  ],
+  "risks": [
+    "The regulator inquiry could result in a fine or mandated process changes",
+    "Billing-run failures may recur when the new tariff structure launches in Q3"
+  ],
+  "action_items": [
+    {"text": "Fix critical accessibility issues", "owner": ["Jonas Meyer", "JM"], "due_date": "2026-07-31"},
+    {"text": "Root-cause analysis of April billing failures", "owner": ["Priya Raman", "PR"], "due_date": "2026-07-15"},
+    {"text": "Prepare response to regulator inquiry", "owner": ["Legal (Kestrel)", "Legal", "Kestrel Legal"], "due_date": null}
+  ],
+  "conflicts": [{"topic": "H1 platform uptime", "values": ["99.5%", "99.3%"]}],
+  "needs_review": true,
+  "notes": "Half-year period: no calendar quarter (warning expected). Customer is the Retail Division only. Two-column highlight box. Owner initials resolved by a legend (either form accepted). 'TBC' = unknown due date. Goals table says uptime 99.5% met, appendix says H1 average 99.3% -> conflict; either value accepted for the KPI."
+}

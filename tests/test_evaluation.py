@@ -94,6 +94,17 @@ def test_item_similarity(a, b, match):
     assert (similarity(a, b) >= 0.6) is match
 
 
+def test_alternative_answers_and_name_normalization():
+    from qbr_extractor.evaluation import _name_equal, _num_equal, _text_equal
+
+    assert _text_equal("Jonas Meyer", ["Jonas Meyer", "JM"]) and _text_equal("jm", ["Jonas Meyer", "JM"])
+    assert not _text_equal("Priya Raman", ["Jonas Meyer", "JM"])
+    assert _text_equal(None, None) and not _text_equal("Dana", None)
+    assert _num_equal(99.3, [99.5, 99.3]) and not _num_equal(99.0, [99.5, 99.3])
+    assert _name_equal("Kestrel Energy — Retail Division", "Kestrel Energy Retail Division")
+    assert not _name_equal("BLUEPEAK FINANCIAL SERVICES", "BluePeak Financial Services")
+
+
 def test_kpi_names_are_matched_strictly():
     assert name_similarity("Users", "Weekly active users") < 0.5
     assert name_similarity("Weekly active users", "Weekly active users") == 1.0

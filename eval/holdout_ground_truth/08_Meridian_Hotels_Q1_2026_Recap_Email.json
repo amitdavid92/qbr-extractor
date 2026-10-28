@@ -1,0 +1,33 @@
+{
+  "file": "08_Meridian_Hotels_Q1_2026_Recap_Email.pdf",
+  "customer_name": "Meridian Hotels & Resorts",
+  "period": {"year": 2026, "quarter": 1, "status": "found"},
+  "report_date": "2026-04-03",
+  "goals": [
+    {"text": "Reach 15k direct bookings in Q1", "scope": "current"},
+    {"text": "Reach 18k direct bookings in Q2", "scope": "next"}
+  ],
+  "kpis": [
+    {"name": "Direct bookings", "value": 12400, "previous": 8700, "target": 15000},
+    {"name": "Guest NPS", "value": 38, "previous": 31, "target": null},
+    {"name": "Average kiosk check-in time", "value": 2, "previous": 4, "target": null}
+  ],
+  "achievements": [
+    "Kiosk upgrade is live in all 14 properties",
+    "Loyalty integration passed UAT on the first attempt"
+  ],
+  "challenges": [
+    "Direct bookings are behind the 15k target",
+    "Lisbon and Porto went live late due to a vendor hardware delay",
+    "Front-desk staff in two properties still print paper registration cards"
+  ],
+  "risks": [],
+  "action_items": [
+    {"text": "Send the updated integration spec", "owner": ["Dana Weiss", "Dana"], "due_date": null},
+    {"text": "Confirm the Wi-Fi upgrade schedule for Porto", "owner": ["Marco", "Marco (Meridian IT)", "Meridian IT"], "due_date": null},
+    {"text": "Joint workshop on the Q2 upsell campaign", "owner": null, "due_date": null}
+  ],
+  "conflicts": [],
+  "needs_review": false,
+  "notes": "Email format. 'I' = the sender Dana Weiss. 'end of next week' is relative and cannot be resolved to a date. 9.1k -> 8.7k is an explicit correction, not a conflict; previous value is 8.7k. Risks explicitly 'none'. 'Q2 target: 18k' under Next steps is a next-period goal, not an action."
+}
