@@ -17,9 +17,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from .evaluation import EvalReport, evaluate_document, load_ground_truth
-from .extractor import Extractor
+from .extractor import ExtractionError, Extractor
 from .llm import GeminiClient
-from .pdf_reader import read_pdf
+from .pdf_reader import PdfReadError, read_pdf
 from .pipeline import Pipeline, collect_pdfs
 from .prompt import PROMPT_VERSION
 from .record import QbrRecord, build_record
@@ -104,13 +104,24 @@ def _eval(args: argparse.Namespace) -> int:
     extractor = _make_extractor()
     if extractor is None:
         return 2
-    docs = []
+    docs, failed = [], []
     for gt in load_ground_truth(args.ground_truth):
-        doc = read_pdf(args.input / gt["file"])
-        record = build_record(doc, extractor.extract(doc), extractor.client.model, PROMPT_VERSION)
+        try:
+            doc = read_pdf(args.input / gt["file"])
+            record = build_record(doc, extractor.extract(doc), extractor.client.model, PROMPT_VERSION)
+        except (PdfReadError, ExtractionError) as e:
+            failed.append(f"{gt['file']}: {e}")
+            continue
         docs.append(evaluate_document(gt, record))
     report = EvalReport(extractor.client.model, PROMPT_VERSION, docs)
     print(report.format())
+    if failed:
+        # Scores above cover only the documents that were processed; re-run to fill the gaps
+        # (successful extractions are cached, so only the failed ones call the LLM again).
+        print(f"\nNOT EVALUATED ({len(failed)}): results are incomplete")
+        for f in failed:
+            print(f"  - {f}")
+        return 1
 
     args.out.mkdir(parents=True, exist_ok=True)
     out_file = args.out / f"{PROMPT_VERSION}.json"

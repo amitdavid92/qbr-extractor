@@ -2,6 +2,7 @@
 Claude, OpenAI or a local model means adding one class."""
 
 import logging
+import random
 import time
 from typing import Protocol
 
@@ -27,7 +28,7 @@ class LLMClient(Protocol):
 
 
 class GeminiClient:
-    def __init__(self, api_key: str, model: str, max_attempts: int = 4, base_delay: float = 2.0):
+    def __init__(self, api_key: str, model: str, max_attempts: int = 5, base_delay: float = 4.0):
         self.model = model
         self._client = genai.Client(api_key=api_key)
         self._max_attempts = max_attempts
@@ -49,9 +50,12 @@ class GeminiClient:
                     raise LLMError("empty response from model")
                 return response.text
             except errors.APIError as e:
-                if e.code not in RETRYABLE_CODES or attempt == self._max_attempts:
+                # A daily quota resets in hours; retrying within seconds only wastes time.
+                daily_quota = e.code == 429 and "per day" in (e.message or "").lower()
+                if e.code not in RETRYABLE_CODES or daily_quota or attempt == self._max_attempts:
                     raise LLMError(f"Gemini API error {e.code}: {e.message}") from e
-                delay = self._base_delay * 2 ** (attempt - 1)
+                # Exponential backoff with jitter: ~4, 8, 16, 32s. Overload (503) spikes last tens of seconds.
+                delay = self._base_delay * 2 ** (attempt - 1) * random.uniform(0.8, 1.2)
                 log.warning("Gemini %s (attempt %d/%d), retrying in %.0fs", e.code, attempt, self._max_attempts, delay)
                 time.sleep(delay)
         raise LLMError("unreachable")
