@@ -4,7 +4,10 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
+import pymupdf
 import pymupdf4llm
+
+pymupdf.set_messages(pylogging=True)  # route parser chatter to the `pymupdf` logger instead of stdout
 
 
 class PdfReadError(Exception):
@@ -21,11 +24,15 @@ class PdfDocument:
 MIN_TEXT_CHARS = 50  # below this we assume there is no text layer (e.g. a scanned PDF)
 
 
+def file_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def read_pdf(path: Path) -> PdfDocument:
-    data = path.read_bytes()
-    file_hash = hashlib.sha256(data).hexdigest()
+    digest = file_hash(path)
     try:
-        text = pymupdf4llm.to_markdown(str(path))
+        # OCR is off: all inputs are digital PDFs; scanned input fails loudly below instead.
+        text = pymupdf4llm.to_markdown(str(path), use_ocr=False)
     except Exception as e:
         raise PdfReadError(f"failed to parse PDF: {e}") from e
 
@@ -33,4 +40,4 @@ def read_pdf(path: Path) -> PdfDocument:
         # OCR / vision fallback is a documented extension, not part of the PoC.
         raise PdfReadError("no text layer found (scanned PDF?)")
 
-    return PdfDocument(path=path, file_hash=file_hash, text=text)
+    return PdfDocument(path=path, file_hash=digest, text=text)
