@@ -11,7 +11,7 @@ from qbr_extractor.normalize import (
 )
 
 
-@pytest.mark.parametrize("raw", [None, "", "TBD", "Not recorded", "no owner assigned yet", "N/A", "unknown", "-"])
+@pytest.mark.parametrize("raw", [None, "", "TBD", "Not recorded", "no owner assigned yet", "N/A", "unknown", "-", "—", "TBC", "to be agreed"])
 def test_no_value_markers(raw):
     assert is_no_value(raw)
     assert normalize_owner(raw) is None

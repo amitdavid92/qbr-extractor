@@ -13,6 +13,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from .normalize import is_no_value
 from .record import QbrRecord
 
 _STOPWORDS = set(
@@ -20,6 +21,13 @@ _STOPWORDS = set(
     "it its into during per than more less our their will would could should may can has have had not no".split()
 )
 MATCH_THRESHOLD = 0.6
+
+
+def _filled(raw: str | None, num: float | None):
+    """What the prediction put in a slot; a copied '—' or 'TBD' counts as empty."""
+    if num is not None:
+        return num
+    return None if is_no_value(raw) else raw
 
 
 def _stems(text: str) -> set[str]:
@@ -205,8 +213,8 @@ def evaluate_document(gt: dict, rec: QbrRecord) -> DocResult:
         field_check("kpi_value", _num_equal(p.value_num, g["value"]), f"{g['name']}={g['value']}", p.value_num)
         field_check("kpi_previous", _num_equal(p.previous_num, g["previous"]), f"{g['name']} prev={g['previous']}", p.previous_num)
         field_check("kpi_target", _num_equal(p.target_num, g["target"]), f"{g['name']} target={g['target']}", p.target_num)
-        null_slot(f"kpi previous ({g['name']})", g["previous"], p.previous_raw if p.previous_num is None else p.previous_num)
-        null_slot(f"kpi target ({g['name']})", g["target"], p.target_raw if p.target_num is None else p.target_num)
+        null_slot(f"kpi previous ({g['name']})", g["previous"], _filled(p.previous_raw, p.previous_num))
+        null_slot(f"kpi target ({g['name']})", g["target"], _filled(p.target_raw, p.target_num))
 
     # --- action items (one-to-one by text, then owner / due date)
     ga, pa = gt["action_items"], rec.action_items

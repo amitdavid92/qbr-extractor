@@ -1,0 +1,106 @@
+{
+  "model": "gemini-3.5-flash",
+  "prompt_version": "v2",
+  "lists": {
+    "goals": {
+      "precision": 1.0,
+      "recall": 0.889
+    },
+    "achievements": {
+      "precision": 1.0,
+      "recall": 0.8
+    },
+    "challenges": {
+      "precision": 1.0,
+      "recall": 0.875
+    },
+    "risks": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "kpis": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "action_items": {
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "fields": {
+    "customer_name": {
+      "accuracy": 1.0,
+      "n": 3
+    },
+    "period_year": {
+      "accuracy": 0.667,
+      "n": 3
+    },
+    "period_quarter": {
+      "accuracy": 0.667,
+      "n": 3
+    },
+    "period_status": {
+      "accuracy": 1.0,
+      "n": 3
+    },
+    "report_date": {
+      "accuracy": 1.0,
+      "n": 3
+    },
+    "needs_review": {
+      "accuracy": 0.333,
+      "n": 3
+    },
+    "goal_scope": {
+      "accuracy": 1.0,
+      "n": 8
+    },
+    "kpi_value": {
+      "accuracy": 1.0,
+      "n": 13
+    },
+    "kpi_previous": {
+      "accuracy": 1.0,
+      "n": 13
+    },
+    "kpi_target": {
+      "accuracy": 1.0,
+      "n": 13
+    },
+    "action_owner": {
+      "accuracy": 0.9,
+      "n": 10
+    },
+    "action_due_date": {
+      "accuracy": 1.0,
+      "n": 10
+    }
+  },
+  "invented_values": {
+    "count": 0,
+    "null_slots": 17
+  },
+  "conflicts": {
+    "detected": 1,
+    "expected": 1,
+    "false_alarms": 1
+  },
+  "errors": {
+    "07_Orion_Insurance_QBR_Q3_FY2026.pdf": [
+      "period_year: expected 2025, got None",
+      "period_quarter: expected 4, got 3",
+      "needs_review: expected False, got True",
+      "MISSED goals: Roll out the Home line in Q4 FY2026",
+      "MISSED achievements: Motor claims rules finalized",
+      "MISSED achievements: Adjusters trained on the new workflow"
+    ],
+    "08_Meridian_Hotels_Q1_2026_Recap_Email.pdf": [
+      "needs_review: expected False, got True",
+      "MISSED challenges: Direct bookings are behind the 15k target",
+      "action_owner: expected \"Send the updated integration spec owner=['Dana Weiss', 'Dana']\", got 'I'",
+      "FALSE conflict: Q4 direct bookings figure: 9.1k vs 8.7k"
+    ],
+    "09_Kestrel_Energy_Retail_H1_2026_Review.pdf": []
+  }
+}

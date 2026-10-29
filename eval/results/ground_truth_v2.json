@@ -1,0 +1,107 @@
+{
+  "model": "gemini-3.5-flash",
+  "prompt_version": "v2",
+  "lists": {
+    "goals": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "achievements": {
+      "precision": 0.95,
+      "recall": 0.905
+    },
+    "challenges": {
+      "precision": 1.0,
+      "recall": 0.923
+    },
+    "risks": {
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "kpis": {
+      "precision": 1.0,
+      "recall": 0.974
+    },
+    "action_items": {
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "fields": {
+    "customer_name": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "period_year": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "period_quarter": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "period_status": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "report_date": {
+      "accuracy": 1.0,
+      "n": 6
+    },
+    "needs_review": {
+      "accuracy": 0.833,
+      "n": 6
+    },
+    "goal_scope": {
+      "accuracy": 1.0,
+      "n": 15
+    },
+    "kpi_value": {
+      "accuracy": 1.0,
+      "n": 37
+    },
+    "kpi_previous": {
+      "accuracy": 1.0,
+      "n": 37
+    },
+    "kpi_target": {
+      "accuracy": 1.0,
+      "n": 37
+    },
+    "action_owner": {
+      "accuracy": 1.0,
+      "n": 21
+    },
+    "action_due_date": {
+      "accuracy": 1.0,
+      "n": 21
+    }
+  },
+  "invented_values": {
+    "count": 0,
+    "null_slots": 83
+  },
+  "conflicts": {
+    "detected": 1,
+    "expected": 2,
+    "false_alarms": 0
+  },
+  "errors": {
+    "01_Northwind_Technologies_Q2_2026.pdf": [],
+    "02_Globex_Retail_Apr-Jun_2026.pdf": [],
+    "03_Contoso_Manufacturing_QBR_Notes.pdf": [],
+    "04_BluePeak_Financial_Services_Business_Review.pdf": [
+      "MISSED achievements: Q2 objective of failed executions below 2% achieved"
+    ],
+    "05_Apex_Healthcare_Account_Update.pdf": [
+      "MISSED achievements: Scheduling integration went live on May 18",
+      "EXTRA achievements: Scheduling integration successfully launched.",
+      "MISSED challenges: Hospital South rollout not completed"
+    ],
+    "06_Vertex_Logistics_Quarterly_Review.pdf": [
+      "needs_review: expected True, got False",
+      "MISSED kpi: Weekly adoption",
+      "MISSED conflict: Weekly adoption rate"
+    ]
+  }
+}

@@ -26,9 +26,14 @@ Example output:
 ```
 FILE                                                 STATUS        CUSTOMER                     PERIOD    ISSUES
 01_Northwind_Technologies_Q2_2026.pdf                success       Northwind Technologies       Q2 2026   0
-04_BluePeak_Financial_Services_Business_Review.pdf   needs_review  BluePeak Financial Services  Q2 ????   2
+02_Globex_Retail_Apr-Jun_2026.pdf                    needs_review  Globex Retail                Q2 2026   1
+04_BluePeak_Financial_Services_Business_Review.pdf   needs_review  BluePeak Financial Services  Q2 ????   1
 ...
 ```
+
+`Q2 ????` is deliberate: the BluePeak report never states a year, so the system flags it instead of guessing one. The Globex flag is a real conflict in the report: 68% against 64% adoption.
+
+**Results in brief:** 0 invented values across 9 documents, 100% on KPI values and on action owners and due dates for the sample set, and a held-out set whose ground truth was written before any model run. See [Results](docs/ARCHITECTURE.md#results).
 
 ## Commands
 
@@ -40,7 +45,7 @@ FILE                                                 STATUS        CUSTOMER     
 | `qbr export` | Re-exports `output/qbr.xlsx` from the DB. |
 | `qbr eval` | Scores the extraction against the hand-written ground truth in `eval/ground_truth`. |
 | `qbr eval --input data/holdout --ground-truth eval/holdout_ground_truth` | Scores against the held-out set. |
-| `pytest` | Runs the 92 offline tests. No API key is needed. |
+| `pytest` | Runs the 97 offline tests. No API key is needed. |
 
 Global options: `--db PATH` (default `output/qbr.db`) and `-v` for verbose logging.
 

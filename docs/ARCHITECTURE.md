@@ -88,26 +88,71 @@ Because I wrote the ground truth for the 6 samples after seeing the first model 
 
 ## Results
 
-Sample set, prompt v1, `gemini-3.5-flash` (`eval/results/ground_truth_v1.json`):
+All runs use `gemini-3.5-flash`. The raw scores are in `eval/results/`.
+
+### Sample set (6 documents): v1 against v2
+
+| Metric | v1 | v2 (submitted) |
+|---|---|---|
+| List precision, lowest list | 93.8% (goals, challenges) | 95.0% (achievements) |
+| List recall, lowest list | 100% | 90.5% (achievements) |
+| KPI value, previous and target | 100% (38 of 38) | 100% of matched (37). One KPI was missed. |
+| Action owner and due date | 100% (21) | 100% (21) |
+| Customer name | 5 of 6 | **6 of 6** |
+| Invented values | **0 of 85** | **0 of 83** |
+| Conflicts | 2 of 2, 1 false alarm | 1 of 2, 0 false alarms |
+
+Prompt v2 added four general rules based on the v1 errors:
+- write the customer name in normal casing;
+- rounding is not a conflict;
+- risks are not goals;
+- requests are not challenges.
+
+All four targeted errors are fixed. One rule overreached: Vertex's "around seventy percent" (stated in the meeting) against 67.9% (from the dashboard) is now read as rounding, so the real conflict is missed, and the adoption KPI is lost with it. For a review tool, a missed conflict is worse than a false alarm.
+
+The fix is a v3 rule: "rounding is a conflict only when the two figures come from different sources". I did not apply it before submitting. A prompt change re-runs every document, and it would have been tuned after the held-out documents had already been seen. One v2 "miss" on Apex is the scorer's fault, not the model's: "went live" and "successfully launched" share no keywords.
+
+### Held-out set (3 documents, ground truth written before any model run), v2
 
 | Metric | Result |
 |---|---|
-| List recall | 100% for all 6 lists |
-| List precision | goals 93.8%, challenges 93.8%, others 100% |
-| KPI value, previous and target | 100% (38 KPIs) |
-| Action owner and due date | 100% (21 actions) |
-| Invented values | **0 of 85** null slots |
-| Conflicts | 2 of 2 detected, 1 false alarm |
-| Customer name | 5 of 6 (all-caps title copied) |
+| List precision | 100% for all lists |
+| List recall | goals 88.9%, achievements 80%, challenges 87.5%, risks, KPIs and actions 100% |
+| KPI value, previous and target | 100% (13) |
+| Action owner and due date | owner 9 of 10, due date 10 of 10 |
+| Customer name | 3 of 3. This includes "Orion, not the consultant" and "Retail Division only". |
+| Period | 2 of 3. The fiscal quarter was not converted, and this is flagged (see below). |
+| Invented values | **0 of 17** |
+| Conflicts | 1 of 1 (Kestrel's goals table against its appendix), 1 false alarm |
 
-The remaining v1 errors led to four general rules in prompt v2: name casing, rounding is not a conflict, risks are not goals, and requests are not challenges. *v2 sample and held-out results: to be added.*
+The first measurement is kept unchanged in `holdout_ground_truth_v2_before_fixes.json`. After it, I made only code changes, with no prompt change, so the model output is identical:
+- `<br>` inside table cells is now normalized before grounding.
+- Tables are also read column by column. Before this, a sentence that wraps inside one column of a side-by-side box could not be found in the document.
+- "—", "TBC" and "to be agreed" are now treated as "no value".
+
+The scores did not move, because the extraction was already right. What changed is the review flags:
+- On Kestrel, 8 false "quote not found" warnings dropped to the 2 real ones: the half-year period and the uptime conflict.
+- Orion's due date is now verified.
+
+The scorer itself counted a faithfully copied "—" as an invented value. That was fixed too, which took invented values from 1 to 0.
+
+Errors that remain on the held-out set:
+
+| Document | Error | Effect |
+|---|---|---|
+| Orion | "Q3 FY2026" was kept as Q3 with no year, instead of calendar Q4 2025 | **Flagged** with "year not stated", so it is not silently wrong. The fix is a per-customer fiscal calendar. |
+| Meridian (email) | Owner "I" was not resolved to the sender | Not flagged. An owner that is a pronoun should be a review rule. |
+| Meridian | "9.1k, correction: 8.7k" was reported as a conflict | A false alarm, but in the safe direction |
+| Orion, Meridian | 4 items missed: the previous QBR's "Done" actions as achievements, one goal, one challenge | Lower recall on unusual layouts |
 
 ## Limitations and what I would do next
 
 | Limitation | Next step |
 |---|---|
 | Scanned PDFs are rejected, not read | OCR fallback, or a vision model for pages with no text layer |
-| Complex layouts (multi-column boxes, `<br>` in table cells) can degrade the text | Send the page image together with the text to a multimodal model when the layout is complex |
+| Prompt v2 misses a conflict between an approximate figure and an exact one from different sources (Vertex) | A v3 rule that keys on the source, measured on both sets |
+| Complex layouts can degrade the text. Grounding already handles wrapped table columns and `<br>`, but the model still sees row-by-row text. | Send the page image together with the text to a multimodal model when the layout is complex |
+| An owner written as a pronoun ("I" in an email) is not resolved or flagged | A review rule for pronoun owners, plus resolving the owner from the email sender |
 | Grounding proves the *quote* exists, not that the *description* is faithful to it | An LLM-as-judge or entailment check between description and quote |
 | Grounding is weak for short numbers ("12" appears everywhere) | Check the number appears inside its own quote, not just anywhere in the document |
 | Executive summary is generated and not evaluated | A rubric-based LLM judge |

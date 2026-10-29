@@ -18,7 +18,8 @@ _MONTH = "(" + "|".join(sorted(_MONTHS, key=len, reverse=True)) + r")\.?"
 
 # Phrases that mean "this value is explicitly unknown" -> stored as null.
 _NO_VALUE_RE = re.compile(
-    r"^\s*(tbd|tba|n/?a|none|unknown|unassigned|-+"
+    r"^\s*(tbd|tba|tbc|n/?a|none|unknown|unassigned|[-–—]+"
+    r"|to be (agreed|confirmed|determined|decided)"
     r"|not (recorded|assigned|set|defined|agreed|specified)"
     r"|no (owner|date)\b.*)\s*\.?\s*$",
     re.I,

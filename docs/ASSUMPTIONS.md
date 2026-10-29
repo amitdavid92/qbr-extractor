@@ -31,7 +31,7 @@ The assignment leaves several definitions open. Below is each one I had to make,
 ## Missing, unknown and "no value"
 
 - A missing value is `null`, never an empty string or `"N/A"`. **Null is always preferred to a guess.**
-- Explicit placeholders such as "TBD", "TBA", "N/A", "Not recorded", "no owner assigned yet", "unassigned" and "-" are normalized to `null`. The original text is kept in `owner_raw` or `due_date_raw`, so a reviewer can see that the document *said* "TBD" rather than nothing.
+- Explicit placeholders such as "TBD", "TBA", "TBC", "to be agreed", "—", "N/A", "Not recorded", "no owner assigned yet", "unassigned" and "-" are normalized to `null`. The original text is kept in `owner_raw` or `due_date_raw`, so a reviewer can see that the document *said* "TBD" rather than nothing.
 - A required field that is missing is flagged:
 
 | Missing | Severity |
@@ -65,7 +65,7 @@ The assignment leaves several definitions open. Below is each one I had to make,
 | `Apr–Jun 2026` | Q2 2026, found. A month range is converted to a quarter only when it lines up exactly with a calendar quarter. |
 | A meeting or report date only (`07/07/2026`, `June 30, 2026`) | Inferred as the quarter just reviewed, with status `inferred` and an info note |
 | `Q2 / H1`, `H1 2026` | Kept as the label. A half-year has no single quarter, so it gets a warning. |
-| `Q3 FY2026` | Must be mapped to the calendar period (Q4 2025 for a fiscal year starting in October). There is currently no fiscal-calendar support; this is a known gap tested by the held-out set. |
+| `Q3 FY2026` | Should map to the calendar period (Q4 2025 for a fiscal year starting in October). **This is not supported yet.** On the held-out Orion report, it is kept as Q3 with no year and flagged "year not stated" for review. It is never silently converted. |
 
 ## Conflicts
 
